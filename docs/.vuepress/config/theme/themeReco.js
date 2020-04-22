@@ -11,6 +11,7 @@ module.exports = {
       text: '标签' // 默认 “标签”
     }
   },
+  // 此部分在页面底部显示
   // 最后更新时间
   lastUpdated: 'Last Updated', // string | boolean
   // 作者
