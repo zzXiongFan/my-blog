@@ -59,11 +59,11 @@ yarn run dev // npm run dev
 title: '文档标题'
 date: 2020-04-22 # 文档编写时间，会自动主页排序并生成时间轴
 tags:  # 当前文档的标签，会在侧边栏及导航栏进行显示，支持搜索功能
-	- tag1
-	- tag2
+ - tag1
+ - tag2
 categories: # 当前文档的分类，会在侧边栏及导航栏进行显示，支持搜索功能
-	- category1
-	- category2
+ - category1
+ - category2
 ---
 ::: tip
 中间内容会在文摘摘要中高亮显示
