@@ -109,5 +109,13 @@ yarn build // npm run build
 
 构建的资源位于```./public/```下，将此文件夹的全部内容推送至远程仓库[username].github.io
 
+```bash
+# 目前支持使用脚本进行部署
+# 复制根目录下的deploy.sh.cp，重命名为deploy.sh
+cp deploy.sh.cp deploy.sh
+# 在deploy.sh中加入自己的用户信息，详看文件注释
+# 已配置.gitignore，避免用户信息上传
+```
+
 更新博文时，只需要重新构建，并推送即可。
 
