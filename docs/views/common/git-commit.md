@@ -7,6 +7,8 @@ categories:
  - 开发规范
 ---
 
+> 简单介绍了[Angular 规范](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0)，并说明了自动commit工具Commitizen的使用方法
+
 ## 规范的意义
 
 git commit 是大家在使用git的时候一定会使用的功能，对应本次提交的记录，**一个好的程序员需要重视每一条记录**，因而，本文简单介绍目前最常用的[Angular 规范](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.greljkmo14y0)，并简单介绍自动化生成commit 的工具。
