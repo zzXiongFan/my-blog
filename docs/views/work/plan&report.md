@@ -13,7 +13,7 @@ categories:
 
 # 实习任务
 
-实习任务图谱：![webIDE](https://github.com/zzXiongFan/vuepress-blog/blob/master/docs/views/images/webIDE.png)
+实习任务图谱：![webIDE](../images/webIDE.png)
 
 ## 具体时间安排
 
