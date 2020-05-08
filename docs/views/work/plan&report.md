@@ -42,4 +42,4 @@ categories:
 
 - 4-29日-五一假前：掌握React的基本语法，JSX的语法，React脚手架
 - 5月6日-5月7日：掌握React路由
-- TODO：掌握React关键插件
+- 5月8日：学习Redux和TS基础(查看TS类型相关的内容)
