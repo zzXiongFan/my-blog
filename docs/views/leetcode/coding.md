@@ -11,6 +11,76 @@ categories:
 
 <!-- more -->
 
+## [56 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
+
+### 题目描述
+
+[链接](https://leetcode-cn.com/problems/merge-intervals/)
+
+### 我的解法
+
+1. 简单循环
+
+   ```latex
+   var res;
+   for i in input:
+   	for j in res:
+   		判断i和j的交区间
+   ```
+
+   这个算法有个问题，输入是乱序的，新的区间进来以后，和某一个合并，可能合并后的数组还能和其他数组进行合并，导致出现内部的循环遍历，算法复杂且效率不高。
+
+2. 排序解法
+
+   这是一个**排序题！**
+
+   ```latex
+   1. 根据左边界的大小进行升序排列，取决于排序算法
+   2. 遍历新数组，只和res中的最新一个进行合并，可以保证合并不重复，复杂度为o(n)
+   ```
+
+   解法ac代码
+
+   ```js
+   /**
+    * @param {number[][]} intervals
+    * @return {number[][]}
+    */
+   var merge = function(intervals) {
+       if (intervals.length == 0 || intervals.length == 1) {
+           return intervals;
+       }
+       intervals.sort((a, b) => {
+           return a[0] - b[0];
+       });
+       // console.log(intervals);
+       // 采用原地算法，避免使用空间
+       for (var i=1; i<intervals.length;) {
+           // 判断当前与前一个区间的右边界
+           if (intervals[i][0] > intervals[i-1][1]) {
+               i++;
+               continue;
+           } else 
+           // 区间需要合并
+           if (intervals[i][1] < intervals[i-1][1]) {
+               // 删除当前区间，索引不变动
+               intervals.splice(i ,1);
+               continue;
+           } else {
+               // 合并
+               intervals[i-1][1] = intervals[i][1];
+               intervals.splice(i ,1);
+               continue;
+           }
+       }
+       return intervals;
+   };
+   ```
+
+   执行结果： 用时大概在95ms，超过50%左右，内存70%以上；
+
+   耗时分析：排序耗时
+
 ## [221 最大正方形](https://leetcode-cn.com/problems/maximal-square/)
 
 ### 题目描述
