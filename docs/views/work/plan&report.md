@@ -38,9 +38,10 @@ categories:
 
 ### 基础知识整理
 
-#### React
-
 - 4-29日-五一假前：掌握React的基本语法，JSX的语法，React脚手架
 - 5月6日-5月7日：掌握React路由
 - 5月8日：学习Redux和TS基础(查看TS类型相关的内容)
-- 5月9: 完成Redux的学习,开始学习electron
+- 5月9日: 完成Redux的学习,继续学习TS
+- 5月10日-5月12日：基本完成TS的学习，插入一个临时任务：**使用conteneEditable属性和TS完成一个简单的web编辑器**
+- 5月13日：完成简单web编辑器的布局，研究代码高亮和自动补全
+- 5月14日：汇报进度，收到建议：**不要执着于在web中实现，可以先看electron，然后利用electron和ts实现类vscode编辑器**
