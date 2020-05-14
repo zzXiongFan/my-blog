@@ -9,11 +9,9 @@ categories:
 
 > 主要标记TS中与JS不同的部分
 
-## TypeScript基本语法
+## 认识TS的简单语法
 
-### 认识TS的简单语法
-
-#### 声明变量
+### 声明变量
 
 ```typescript
 // let 或 var  变量名: 数据类型 = 初始化值
@@ -23,9 +21,9 @@ let varName: string = "hello world";
 
 **问题：如果不声明类型会如何？**
 
-### 类型
+## 类型
 
-#### 基础类型
+### 基础类型
 
 1. 数值型：number
 
@@ -98,7 +96,7 @@ let directions: Directions = Directions.Up;
 var directions = 0 /* Up */;
 ```
 
-#### 任意值：any
+### 任意值：any
 
 相当于JS中的动态类型，**方便和JS的库进行交互**，但是需要注意一点：**动态类型不能识别类型，故编辑器无法展示其可以使用的方法（自动补全）， 编译器无法进行方法调用检查。**
 
@@ -116,7 +114,7 @@ any类型也常用语数组的定义
 let list: any[] = [1, true, "free"];
 ```
 
-#### 空值、Null和Undefined
+### 空值、Null和Undefined
 
 **这三个类型在JS中极其混乱，TS对其进行了严格的规范，此为TS的一个较大的特点**
 
@@ -145,15 +143,15 @@ let list: any[] = [1, true, "free"];
 
    undefined表示已经声明但是尚未初始化变量的值，一般来当做值来用，不当做类型来使用（null类型只能赋值为null, undefined和any）
 
-#### Never
+### Never
 
 never类型表示从不会出现的值，一般用于函数抛出异常Error或存在无法正常结束的情况。
 
-#### Symbols
+### Symbols
 
 JS在ES6中加入的语法，表示独一无二的值，**一旦创建就不能变更，且不能设置属性**，一般是用作对象的一个属性。
 
-#### 交叉类型
+### 交叉类型
 
 将多个类型合并为一个类型，**合并后的交叉类型包含了其中的所有类型的特性**
 
@@ -207,7 +205,7 @@ carShip.driveOnRoad();
 carShip.driveInWater();
 ```
 
-#### Union类型
+### Union类型
 
 对于类型来说，表示或
 
@@ -248,7 +246,7 @@ carShip.driverInWater();  // 编译时会报错
 // 以上两种表示其实对应的JS是相同的东西，区别在与TS中的表示很严格，在编译到JS的过程中可以插入检查的语句
 ```
 
-#### 断言
+### 断言
 
 类型断言可以用来手动指定一个值的类型，存在两种语法。**常和联合类型一起使用，参考上面的程序**
 
@@ -268,11 +266,11 @@ carShip.driverInWater();  // 编译时会报错
 
 **断言不是静态语言中的类型转换！只是在编译到JS的过程中对类型进行的判断，在使用中，需结合判断语句进行执行，避免出现引用错误**
 
-## TypeScript中的面向对象编程
+**对于非联合类型，需要先转换为unknow类型，再进行断言 `<type><unknow>标识符` **
 
-### 创建简单对象
+## 对象
 
-#### 创建
+### 创建
 
 ```typescript
 // 注意属性的类型
@@ -287,7 +285,7 @@ let name ={
 }
 ```
 
-#### 添加属性
+### 添加属性
 
 **区别与JS**
 
@@ -346,11 +344,11 @@ TS上述方法会报错
    student["walk"] = function () {};
    ```
 
-### 类
+## 类
 
 TS是面向对象的JavaScript,类描述了所创建对象的属性和方法.
 
-#### 创建一个类
+### 创建一个类
 
 包括属性,构造函数和方法这几个部分.
 
@@ -370,11 +368,11 @@ class 类名 {
 }
 ```
 
-####  创建实例及访问
+###  创建实例及访问
 
 使用`new`创建实例,使用"."运算符进行属性的访问.
 
-#### 装饰器
+### 装饰器
 
 **定义：**装饰器是一个特殊类型的声明，能够被附加到类声明，类方法和属性或方法参数上。
 
@@ -474,6 +472,105 @@ hello2.greeting;
    >
    > 如果为方法或者属性，为其原型（所在类的原型对象）
 
-#### 类成员的可见性
+### 类成员的可见性
 
 public，protected（自身及子类可见），private（私有，只能被自身访问，不能被继承）
+
+## 接口
+
+**定义：**一系列抽象属性或方法的声明，**只给出属性和方法的约定，不给出具体实现。**
+
+Typescript的核心原则之一就是对值所具有的结构进行检查，接口的作用就是为这列类型命名或定义契约。
+
+### 声明与使用
+
+#### 声明
+
+- interface作为关键字
+
+- 分号分隔
+
+  ```typescript
+  interface 接口名 {
+      // 属性或者方法定义
+  }
+  // example
+  interface IPeople {
+      // 不同于对象，这个地方使用；进行分割
+      name: string;
+      // ? 限定  表示参数可选
+      age?: number;
+      walk();
+      eat(a: string);
+  }
+  ```
+
+  **一般用I开头，后续按照类的命名原则**
+
+#### 使用
+
+- 简单使用
+
+  ```typescript
+  interface IConfigs {
+      name: string;
+      height?: number;
+      widtf?: number;
+      learn?();
+  }
+  function load(config: IConfigs) {
+      console.log(config);
+  }
+  load({name: "div", height: 180})
+  ```
+
+  **做类型的时候，传参用对象**
+
+- 接口继承类使用
+
+  ```typescript
+  class React {
+      heigh: number = 100;
+      width: number = 200;
+      learn?() {
+          console.log("learning");
+      }
+  }
+  interface ICondig extends React {
+      name: string;
+  }
+  function load(config: IConfig) {
+      console.log(config);
+      config.learn();  // 会报错，没有learn方法
+  }
+  ```
+
+  继承属性的定义，**可选属性不继承。**
+
+- 类继承接口（`implements`关键字）
+
+  ```typescript
+  // 多接口继承
+  // 接口定义
+  interface IConfigs {
+      height: number;
+      width: number;
+  }
+  interface IBasw {
+      id: string;
+      name: string;
+      toString():string;
+  }
+  // 继承
+  class MyElement implements IConfig, IBase {
+      hetght: number = 200;
+      width: number = 300;
+      id: string = "";
+      name: string = "myele";
+      toString() {
+          return JSON.stringify(this);
+      }
+  }
+  ```
+
+  
