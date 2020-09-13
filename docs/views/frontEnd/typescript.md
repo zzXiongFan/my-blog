@@ -208,3 +208,272 @@ carShip.driveInWater();
 ```
 
 #### Union类型
+
+对于类型来说，表示或
+
+```typescript
+function() padLeft(value:string, padding: number | string) {
+    // padding 可以使用数字  100 也可以使用string  "100px"
+}
+```
+
+对于类来说，表示公共的方法
+
+```typescript
+class Car {
+  public driverOnRoad() {
+      console.log("Can drive on road");
+  }
+  public toUppper(str:string) {
+      return str.toUpperCase();
+  }
+}
+class Ship {
+  public driverInWater() {
+      console.log("Can drive in water");
+  }
+  public toUppper(str:string) {
+      return str.toUpperCase();
+  }
+}
+let car = new Car();
+let ship = new Ship();
+let carShip: Car|Ship = <Car | Ship>{};
+carShip["driverInWater"] = ship["driverInWater"];
+carShip["driverOnRoad"] = ship["driverOnRoad"];
+carShip["toUppper"] = ship["toUppper"];
+console.log(carShip.toUppper("test"));
+carShip.driverInWater();  // 编译时会报错
+(<Ship>carShip).driverInWater(); // 此处使用的是断言语法
+// 以上两种表示其实对应的JS是相同的东西，区别在与TS中的表示很严格，在编译到JS的过程中可以插入检查的语句
+```
+
+#### 断言
+
+类型断言可以用来手动指定一个值的类型，存在两种语法。**常和联合类型一起使用，参考上面的程序**
+
+- <类型>值或者对象
+
+- 值或者对象 as 类型  （在tsx中必须使用这一种，不然会和标签语法冲突）
+
+  ```typescript
+  function getLength(a: string| number):number {
+    if((<string>a).length) {
+      return (<string>a).length;
+    } else {
+      return a.toString().length;
+    }
+  }
+  ```
+
+**断言不是静态语言中的类型转换！只是在编译到JS的过程中对类型进行的判断，在使用中，需结合判断语句进行执行，避免出现引用错误**
+
+## TypeScript中的面向对象编程
+
+### 创建简单对象
+
+#### 创建
+
+```typescript
+// 注意属性的类型
+let name ={
+    props1: "",
+    props2: "",
+    props3: "",
+    // 尽量使用匿名方法,避免命名污染
+   	func1: function() {
+        
+    }
+}
+```
+
+#### 添加属性
+
+**区别与JS**
+
+对于类
+
+```typescript
+let student = {
+    code: "3118104015",
+    name: "zzxiongfan",
+    age: "25",
+    getScore: function () {
+        return {
+            math: "100",
+            english: "60",
+        }
+    }
+}
+```
+
+JS可以直接添加,没有语法错误,对应到JS增加对象的属性
+
+```js
+// JS添加属性
+student.walk = function () {
+    console.log("walk");
+}
+```
+
+TS上述方法会报错
+
+1. 通过提前声明属性解决
+
+   ```typescript
+   let student = {
+       // 上面的内容
+       walk: function() {}
+   }
+   student.walk = function () {
+       console.log("walk");
+   }
+   // 这种办法的原理是将属性先声明,再更改属性的引用
+   ```
+
+2. 定义与对象的同名接口
+
+   ```typescript
+   let student = {};
+   // 定义接口
+   interface student {
+       [key: string]: any
+   }
+   // 添加属性
+   student["height"] = 172;   // 不能使用.运算符: Student.height
+   student["weight"] = 65;
+   // 添加方法
+   student["walk"] = function () {};
+   ```
+
+### 类
+
+TS是面向对象的JavaScript,类描述了所创建对象的属性和方法.
+
+#### 创建一个类
+
+包括属性,构造函数和方法这几个部分.
+
+```typescript
+// 类名首字母大写
+class 类名 {
+    属性1: string;
+   	属性2: number;
+    // 构造函数,实例化时被自动调用
+    constructor(参数1:string) {
+        this.字段1 = 参数1;
+    }
+    // 方法
+    方法1(): string {
+        return this.字段1;
+    }
+}
+```
+
+####  创建实例及访问
+
+使用`new`创建实例,使用"."运算符进行属性的访问.
+
+#### 装饰器
+
+**定义：**装饰器是一个特殊类型的声明，能够被附加到类声明，类方法和属性或方法参数上。
+
+装饰器使用```@expression```这种形式来表示。```@expression```求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息作为参数传入。
+
+若有一个装饰器```@table```则需要顶一个`table`函数。
+
+```typescript
+// 类装饰器
+@log
+class Hello {
+  greeting:string;
+  constructor(message: string) {
+    console.log("构造函数执行");
+    this.greeting = message;
+  }
+  greet() {
+    console.log("Hello, " + this.greeting);
+  }
+}
+
+// 参数为构造函数
+function log(constructor:Function) {
+  console.log("=======start=======");
+  console.log("call constructor : " + constructor.prototype.constructor.name);
+  console.log("========end========");
+}
+let hello = new Hello("zzxiongfan");
+hello.greet();
+// 输出
+> =======start=======
+> call constructor : Hello
+> ========end========
+> 构造函数执行
+> Hello, zzxiongfan
+```
+
+从上面的输出的结果可以看出，装饰器优先于构造函数执行，没有交叉执行。
+
+```typescript
+// 方法装饰器与属性装饰器
+// import "reflect-metadata"
+class Hello2 {
+  @logType
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  @writable(false)
+  greet() {
+    console.log("Hello, " + this.greeting);
+  }
+}
+function writable(flag: boolean) {
+  return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("=======start=======");
+    console.log(propertyKey);
+    console.log(target);
+    console.log(descriptor);
+    descriptor.writable = flag;
+    console.log("========end========");
+  }
+}
+function logType(target: any, key: string) {
+  // var t = Reflect.getMetadata("design:type", target, key);
+  console.log(`${key} type:`);
+}
+let hello2 = new Hello2("zzxiongfan");
+hello2.greet();
+hello2.greeting;
+// 输出
+> greeting type:
+> =======start=======
+> greet
+> Hello2 { greet: [Function] }
+> {
+>   value: [Function],
+>   writable: true,
+>   enumerable: true,
+>   configurable: true
+> }
+> ========end========
+> Hello, zzxiongfan
+```
+
+**装饰器只在加载代码的时候执行一次**
+
+**问题：**
+
+1. 装饰器是一个表达式，表达式求值后必须为一个函数，如何理解？
+
+   > 直接函数表达式，或者执行后返回一个函数也可以。
+
+2. 装饰器传入的第一个参数:"target"，静态成员和实例成员的理解？
+
+   > 字面意思，如果是类，则为这个类的构造函数
+   >
+   > 如果为方法或者属性，为其原型（所在类的原型对象）
+
+#### 类成员的可见性
+
+public，protected（自身及子类可见），private（私有，只能被自身访问，不能被继承）
